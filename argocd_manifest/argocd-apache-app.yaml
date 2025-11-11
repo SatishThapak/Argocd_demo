@@ -7,7 +7,7 @@ spec:
   project: default
 
   source:
-    repoURL: https://github.com/SatishThapak/Argo_CD.git
+    repoURL: https://github.com/SatishThapak/Argocd_demo.git
     targetRevision: main
     path: apache-manifest
 
@@ -16,8 +16,9 @@ spec:
     namespace: apache-demo
 
   syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
     syncOptions:
       - CreateNamespace=true
-    automated:
-      selfHeal: true
-      prune: true
+      - ApplyOutOfSyncOnly=true

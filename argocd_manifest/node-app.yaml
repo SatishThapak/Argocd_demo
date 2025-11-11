@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/SatishThapak/Argocd_demo.git
     targetRevision: HEAD
-    path: argocd_manifest
+    path: Node-app-manifest
   destination:
     server: https://kubernetes.default.svc
     namespace: argocd-demo

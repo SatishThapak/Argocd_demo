@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,7 +16,8 @@ spec:
     spec:
       containers:
       - name: node-app
-        image: satishthapak/argocd:latest
+        image: thapak010189/argocd:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
         env:
@@ -40,3 +42,37 @@ spec:
           limits:
             cpu: "250m"
             memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-app-service
+  namespace: argocd-demo
+spec:
+  selector:
+    app: node-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: node-app-ingress
+  namespace: argocd-demo
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: node-app.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: node-app-service
+            port:
+              number: 80

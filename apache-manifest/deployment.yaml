@@ -14,7 +14,21 @@ spec:
         app: apache-server
     spec:
       containers:
-      - name: apache
-        image: satishthapak/argocd:b6c7eb56e79e5db0fbb987ad8f1a3aa3622dc88a 
-        ports:
-        - containerPort: 80
+        - name: apache
+          image: thapak010189/argocd:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10

@@ -29,11 +29,11 @@ jobs:
 
     - name: Build Docker image with tags
       run: |
-        docker build -t satishthapak/argocd:${{ github.sha }} -t satishthapak/argocd:latest .
+        docker build -t thapak010189/argocd:${{ github.sha }} -t thapak010189/argocd:latest .
         docker images
 
     - name: Push Docker image with commit SHA tag
-      run: docker push satishthapak/argocd:${{ github.sha }}
+      run: docker push thapak010189/argocd:${{ github.sha }}
 
     - name: Push Docker image with latest tag
-      run: docker push satishthapak/argocd:latest
+      run: docker push thapak010189/argocd:latest

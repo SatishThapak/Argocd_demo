@@ -29,7 +29,7 @@ jobs:
 
     - name: Build Docker image with tags
       run: |
-        docker build -t thapak010189/argocd:${{ github.sha }} -t thapak010189/argocd:latest ./Dockerfile
+        docker build -t thapak010189/argocd:${{ github.sha }} -t thapak010189/argocd:latest .
         docker images
 
     - name: Push Docker image with commit SHA tag

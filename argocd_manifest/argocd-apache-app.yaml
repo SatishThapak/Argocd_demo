@@ -9,7 +9,7 @@ spec:
   source:
     repoURL: https://github.com/SatishThapak/Argocd_demo.git
     targetRevision: main
-    path: apache-manifest
+    path: argocd-manifest
 
   destination:
     server: https://kubernetes.default.svc

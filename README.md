@@ -43,79 +43,69 @@ Before we begin, ensure you have the following:
 curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
 sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
 ```
----
 
-**Start Minikube with Docker driver:**
+### Start Minikube with Docker Driver 
 ```bash
-- minikube start --driver=docker
-- kubectl get nodes
-- minikube addons enable ingress
+minikube start --driver=docker
+kubectl get nodes
+minikube addons enable ingress
+```
+### 🐳 Build and Push Your Docker Image
+```bash
+docker login
+docker build -t my_argocd_image/node-app:latest .
+docker tag my_argocd_image/node-app:latest thapak010189/argocd:latest
+docker push thapak010189/argocd:latest
+docker pull thapak010189/argocd:latest
+```
+### 📥 Installing Argo CD on Kubernetes
+Let’s start by installing Argo CD in your Kubernetes cluster. There are two different ways to do this: using manifest files or a Helm chart.
+
+### Method 1: Using Manifest Files
+```bash
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+```
+This installs all the necessary Argo CD components, including the API server, controller, and UI.
+
+### Method 2: Using Helm Chart
+
+1. Add the Argo CD Helm repository:
+
+```bash
+helm repo add argo https://argoproj.github.io/argo-helm
+```
+2. Install the Helm chart with a custom values file:
+```bash
+helm install argocd-demo argo/argo-cd -f argocd-custom-values.yaml
+```
+Example argocd-custom-values.yaml:
+```bash
+server:
+  service:
+    type: NodePort
 ```
 
-**Docker Image Setup**
-Login to Docker: 
-> docker login
+### Verify Installation
+```bash
+kubectl get pods -n argocd
+```
+### Accessing the Argo CD Dashboard
 
-**# Build and push your Docker image:**
+1. Step 1: Forward the Argo CD Server Port
+If you don’t use NodePort, forward the Argo CD server port:
+```bash
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+```
+2. Step 2: Login to the Dashboard
 
-> docker build -t my_argocd_image/node-app:latest .
+Open your browser and go to:
 
-> docker tag my_argocd_image/node-app:latest satishthapak/node-app:latest
+* https://localhost:8080 (if using port-forward)
+* http://<public-ip>:<nodeport> (if using NodePort)
 
-> docker push satishthapak/node-app:latest
-
-> docker pull satishthapak/node-app
-
-
-# Installing ArgoCD on Kubernetes
-Let’s start by installing ArgoCD in your Kubernetes cluster. There are two different ways to do this: using manifest files or a Helm chart.
-
-# Step 1: Install ArgoCD
-**Method 1:** Using Manifest Files
-
-You can install ArgoCD using the official manifest files provided by the ArgoCD team.
-> kubectl create namespace argocd
-> kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-
-This command installs all the necessary ArgoCD components, including the API server, controller, and UI.
-
-**Method 2:** Using a Helm Chart
-Alternatively, you can install ArgoCD using the Helm chart, which allows for more customization through Helm values.
-
-1. Add the ArgoCD Helm repository:
-> helm repo add argo https://argoproj.github.io/argo-helm
-
-2. Install the Helm chart with a custom values file:
-> helm install argocd-demo argo/argo-cd -f argocd-custom-values.yaml
-
-In this example, argocd-custom-values.yaml might look like this:
-> server:
->   service:
->     type: NodePort
-
-This overrides the ArgoCD service type from the default ClusterIP to NodePort, allowing you to access the ArgoCD UI via a NodePort.
-
-# Step 2: Verify the Installation
-> kubectl get pods -n argocd
-
-All pods should be in a Running state.
-
-
-# 3. Accessing the ArgoCD Dashboard
-
-**Step 1: Forward the ArgoCD Server Port**
-To access the ArgoCD UI, you need to forward the ArgoCD server port(if you don’t use service type NodePort):
-
-> kubectl port-forward svc/argocd-server -n argocd 8080:443
-
-**Step 2: Login to the Dashboard**
-
-Open your browser and go to `https://localhost:8080` or http:// public-ip :nodeport
-
-
-The default username is # admin, and to retrieve the password, use:
-
-> kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath={.data.password} | base64 -d
-
-
-
+Default username: admin
+Retrieve the initial admin password: 
+```bash
+kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath={.data.password} | base64 -d
+```

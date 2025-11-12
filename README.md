@@ -53,8 +53,7 @@ minikube addons enable ingress
 ### 🐳 Build and Push Your Docker Image
 ```bash
 docker login
-docker build -t my_argocd_image/node-app:latest .
-docker tag my_argocd_image/node-app:latest thapak010189/argocd:latest
+docker build -t thapak010189/argocd:latest .
 docker push thapak010189/argocd:latest
 docker pull thapak010189/argocd:latest
 ```

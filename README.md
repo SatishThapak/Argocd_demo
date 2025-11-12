@@ -34,18 +34,23 @@ This approach empowers teams to manage both infrastructure configuration and app
 
 Before we begin, ensure you have the following:
 
-1. A running Kubernetes cluster (minikube, EKS, GKE, etc.)
-2. kubectl configured to interact with your cluster
-3. Basic knowledge of Kubernetes resources$
+1. A running Kubernetes cluster (Minikube, EKS, GKE, etc.)  
+2. `kubectl` configured to interact with your cluster  
+3. Basic knowledge of Kubernetes resources  
 
-**Install Minikube:**
-> curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
-> sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+### Install Minikube
+```bash
+curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+```
+---
 
 **Start Minikube with Docker driver:**
-> minikube start --driver=docker
-> kubectl get nodes
-> minikube addons enable ingress
+```bash
+- minikube start --driver=docker
+- kubectl get nodes
+- minikube addons enable ingress
+```
 
 **Docker Image Setup**
 Login to Docker: 

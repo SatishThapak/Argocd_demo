@@ -2,16 +2,16 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: node-app
-  namespace: argocd
+  namespace: argocd-node
 spec:
   project: default
   source:
     repoURL: https://github.com/SatishThapak/Argocd_demo.git
     targetRevision: HEAD
-    path: Node-app-manifest
+    path: node-app-manifest
   destination:
     server: https://kubernetes.default.svc
-    namespace: argocd-demo
+    namespace: argocd-node
   syncPolicy:
     syncOptions:
       - CreateNamespace=true

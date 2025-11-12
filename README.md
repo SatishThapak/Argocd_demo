@@ -105,6 +105,7 @@ Open your browser and go to:
 * http://<public-ip>:<nodeport> (if using NodePort)
 
 Default username: admin
+
 Retrieve the initial admin password: 
 ```bash
 kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath={.data.password} | base64 -d

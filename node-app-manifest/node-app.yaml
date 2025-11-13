@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: node-app
-  namespace: argocd-node
+  namespace: argocd
 spec:
   replicas: 3
   selector:
@@ -46,8 +46,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: node-app-service
-  namespace: argocd-node
+  name: node-app
+  namespace: argocd
 spec:
   selector:
     app: node-app

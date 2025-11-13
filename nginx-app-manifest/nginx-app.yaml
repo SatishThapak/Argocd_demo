@@ -17,6 +17,7 @@ spec:
       containers:
       - name: nginx
         image: thapak010189/custom-nginx:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
 

@@ -3,6 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:   # optional: allow manual runs
 
 jobs:
   build-and-push:
@@ -28,9 +29,10 @@ jobs:
     - name: Build and push Docker image
       uses: docker/build-push-action@v5
       with:
-        context: nginx-app-manifest   
-        file: ./nginx-app-manifest/Dockerfile  
+        context: ./nginx-app-manifest        # build context points to your folder
+        file: ./nginx-app-manifest/Dockerfile # Dockerfile inside that folder
         push: true
+        platforms: linux/amd64,linux/arm64   # optional: multi-arch builds
         tags: |
           thapak010189/custom-nginx:latest
           thapak010189/custom-nginx:${{ github.sha }}

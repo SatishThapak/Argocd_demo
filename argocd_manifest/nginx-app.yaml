@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/SatishThapak/kubernetes_learnings.git
     targetRevision: HEAD
-    path: nginx-deploy
+    path: nginx-app-manifest
   destination:
     server: https://kubernetes.default.svc
     namespace: nginx-web

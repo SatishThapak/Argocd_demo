@@ -1,17 +1,18 @@
-# Use the official lightweight Nginx image
-FROM nginx:alpine
+# Use a specific, stable Nginx Alpine version
+FROM nginx:1.27.2-alpine
+
+# Update Alpine packages to patch vulnerabilities
+RUN apk --no-cache upgrade
 
 # Set working directory
 WORKDIR /usr/share/nginx/html
 
-# Copy your static site files (index.html, etc.)
+# Copy static site files
 COPY index.html /usr/share/nginx/html/
 
-# If you have more assets (css/js/images), copy the whole folder:
-# COPY ./html /usr/share/nginx/html
-
-# Expose port 80 for HTTP traffic
+# Expose HTTP port
 EXPOSE 80
 
-# Start Nginx in the foreground
+# Run Nginx in foreground
 CMD ["nginx", "-g", "daemon off;"]
+

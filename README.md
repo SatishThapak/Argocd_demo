@@ -84,6 +84,11 @@ server:
   service:
     type: NodePort
 ```
+3. ### Argo CD in HA (High Availability) mode
+```bash
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v3.2.0/manifests/ha/install.yaml
+```
 
 ### Verify Installation
 ```bash
@@ -109,3 +114,4 @@ Retrieve the initial admin password:
 ```bash
 kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath={.data.password} | base64 -d
 ```
+---

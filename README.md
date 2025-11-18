@@ -114,4 +114,43 @@ Retrieve the initial admin password:
 ```bash
 kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath={.data.password} | base64 -d
 ```
+## Use this password to log in via CLI or UI:
+```bash
+argocd login <ARGOCD_SERVER> --username admin --password <PASSWORD>
+```
 ---
+
+### Accounts in Argo CD
+In Argo CD, accounts represent user identities that control access to the Argo CD server through either the UI or the CLI.
+
+Default setup: Initially, Argo CD provides only a single admin account with full permissions.
+
+User accounts: Additional accounts can be created by the admin, each with restricted permissions tailored to the user.
+
+Permission types:
+
+- login → Grants access to the Argo CD UI.
+
+- apikey → Allows users to generate their own API tokens for CLI or programmatic access.
+
+Management: Accounts are defined and managed in the argocd-cm ConfigMap. From here, administrators can create, update, or disable accounts — including the default admin account if needed.
+
+### Argo CD RBAC (Role-Based Access Control)
+Argo CD RBAC is a mechanism that defines fine-grained permissions for users and groups within Argo CD. It ensures that each identity only has the access required for their role, thereby strengthening security.
+
+Principle of least privilege: Users are granted only the permissions necessary for their tasks, reducing the risk of unauthorized actions.
+
+Controlled access: Only users with explicit permissions can interact with Argo CD resources.
+
+Example: If an application is deployed, only users with the appropriate permission can modify it. Unauthorized users attempting changes will receive an error.
+
+### RBAC Permissions in Argo CD
+RBAC can be applied across multiple dimensions:
+
+- Users → Assign specific permissions to individual accounts.
+
+- Groups → Define permissions for a group; all members inherit the group’s permissions.
+
+- Resources → Control access to Argo CD resources such as applications, projects, and repositories.
+
+- Actions → Specify which operations users can perform, such as creating, updating, or deleting applications.

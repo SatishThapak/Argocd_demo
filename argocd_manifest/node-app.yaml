@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: node-app
-  namespace: argocd   # Argo CD control namespace
+  namespace: argocd-node-app   # Argo CD control namespace
 spec:
   project: default
   source:
